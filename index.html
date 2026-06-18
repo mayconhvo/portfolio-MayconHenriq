@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maycon Henrique - Portfolio</title>
+    <style>
+        /* Reset basico */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Fundo Animado Ultra Escuro */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #05010a, #0e031a, #121002, #030006);
+            background-size: 400% 400%;
+            animation: fundoSuave 35s ease infinite;
+        }
+
+        @keyframes fundoSuave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container Principal que desliza as telas */
+        .main-wrapper {
+            width: 100vw;
+            height: 200vh;
+            transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
+
+        /* Cada seção ocupa a altura exata da tela */
+        .section {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            perspective: 1500px;
+        }
+
+        /* Cabeçalho */
+        .header {
+            position: absolute;
+            top: 45px;
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .header h1 {
+            font-size: 3.5rem; 
+            margin: 0 0 12px 0;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #ffffff; 
+            font-weight: 700;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); 
+        }
+
+        .header p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: #ffffff; 
+            line-height: 1.6;
+            font-weight: 400; 
+            letter-spacing: 1px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Carrossel */
+        .carousel {
+            position: relative;
+            width: 540px;
+            height: 304px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out; 
+            margin-top: 20px;
+        }
+
+        /* Cards Gerais */
+        .item {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: rgba(11, 5, 20, 0.5);
+            transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+        }
+
+        /* CLASSE DO REFLEXO */
+        .item.cartao-frente {
+            -webkit-box-reflect: below -13px linear-gradient(to bottom, rgba(255,255,255,0.7) 32%, transparent 70%);
+        }
+
+        .item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.1) 60%);
+            display: flex;
+            align-items: flex-end;
+            padding: 24px;
+            box-sizing: border-box;
+            opacity: 0.85;
+            transition: opacity 0.3s;
+        }
+
+        .item:hover {
+            border-color: #ffd700;
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.25);
+            transform: scale(1.03); 
+        }
+
+        .item:hover .item-overlay { opacity: 1; }
+
+        .item-title {
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+        }
+
+        /* Estilo do Card Sobre Mim */
+        .item-sobre {
+            border-color: rgba(255, 215, 0, 0.4);
+        }
+        
+        .item-sobre .item-title span {
+            font-size: 0.9rem;
+            color: #ffd700;
+            font-weight: 300;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* Seção Sobre Mim */
+        .sobre-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            max-width: 1100px;
+            background: rgba(10, 5, 20, 0.6);
+            padding: 50px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .sobre-foto {
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+            flex-shrink: 0; 
+            background-color: #10081c; 
+        }
+
+        .sobre-texto h2 {
+            font-size: 2.2rem;
+            margin: 0 0 15px 0;
+            color: #ffffff;
+        }
+
+        .sobre-texto p {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #cccccc;
+            margin-bottom: 12px;
+        }
+
+        /* Seção de Softwares */
+        .softwares {
+            margin-top: 25px;
+        }
+
+        .softwares h3 {
+            font-size: 1rem;
+            color: #ffd700;
+            margin: 0 0 15px 0;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .softwares-list {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .software-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .software-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.1);
+        }
+
+        .software-item svg {
+            width: 22px;
+            height: 22px;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .software-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .dica-voltar {
+            position: absolute;
+            top: 40px;
+            font-size: 1rem;
+            color: #888;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Modal */
+        .modal {
+            display: none; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(4, 1, 8, 0.98); 
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal.active { display: flex; }
+
+        .modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 960px;
+        }
+
+        iframe {
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            max-height: 65vh;
+            border-radius: 12px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+        iframe.video-vertical { 
+            max-width: 360px; 
+            aspect-ratio: 9 / 16; 
+            max-height: 75vh; 
+        }
+
+        .video-description {
+            margin-top: 25px;
+            color: #e5e5e5;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 800px;
+            font-weight: 300;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            padding-top: 18px;
+        }
+
+        /* CORREÇÃO DO NEGRITO: Força as tags strong a ficarem destacadas */
+        .video-description strong {
+            font-weight: 700 !important;
+            color: #ffffff !important;
+        }
+
+        .fechar-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 45px;
+            color: #aaaaaa;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.2s;
+            user-select: none;
+        }
+        .fechar-btn:hover { color: #ff4d4d; transform: scale(1.1); }
+       /* =======================================================
+           REGRAS DE RESPONSIVIDADE PARA CELULAR (Telas até 768px)
+           ======================================================= */
+        @media (max-width: 768px) {
+            /* 1. FUNDO COM BRILHO (Ajustei para 85% para a barra do celular não esconder) */
+            body { 
+                animation: none !important; 
+                background: radial-gradient(circle at 85% 85%, rgba(255, 215, 0, 0.15) 0%, rgba(14, 3, 26, 1) 45%, #030006 100%) !important;
+            }
+
+            /* Desliga apenas o reflexo para não travar. O contorno amarelo do cartão FICA! */
+            .item.cartao-frente { 
+                -webkit-box-reflect: none !important; 
+            }
+            .sobre-content { 
+                backdrop-filter: none !important; 
+                background: rgba(10, 5, 20, 0.98) !important; 
+            }
+
+            /* 2. DESCENDO O NOME E APROXIMANDO DO CARROSSEL */
+            .header { top: 55px !important; width: 100%; text-align: center; }
+            .header h1 { font-size: 1.8rem; letter-spacing: 1px; margin-bottom: 6px; }
+            .header p { font-size: 0.75rem; line-height: 1.4; padding: 0 15px; margin: 0 auto; }
+
+            /* Ajuste da posição do carrossel para ficar logo abaixo do nome */
+            .carousel { width: 270px; height: 152px; margin-top: 130px !important; }
+            .item-title { font-size: 0.95rem; }
+            .item-overlay { padding: 12px; }
+
+            /* RESTANTE (Mantido) */
+            .sobre-content {
+                flex-direction: column; gap: 20px; padding: 25px 20px;
+                max-width: 90%; max-height: 75vh; overflow-y: auto;
+            }
+            .sobre-foto { width: 130px; height: 130px; }
+            .sobre-texto { text-align: center; }
+            .sobre-texto h2 { font-size: 1.4rem; margin-bottom: 8px; }
+            .sobre-texto p { font-size: 0.88rem; line-height: 1.5; margin-bottom: 8px; }
+            .softwares h3 { font-size: 0.85rem; }
+            .softwares-list { justify-content: center; gap: 8px; }
+            .software-item { padding: 6px 12px; }
+            .software-item span { font-size: 0.8rem; }
+            .dica-voltar { top: 15px; font-size: 0.75rem; }
+            .fechar-btn { top: 15px; right: 20px; font-size: 35px; }
+            .video-description { font-size: 0.95rem; max-width: 90%; padding-top: 12px; margin-top: 15px; }
+            iframe.video-vertical { max-width: 250px; max-height: 55vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper" id="mainWrapper">
+
+        <section class="section">
+            <header class="header">
+                <h1>Maycon Henrique</h1>
+                <p>Motion Graphics &bull; Editor de Vídeo &bull; Linguagens e Ritmos de Edição &bull; Técnicas de corte para diferentes tipos de vídeo &bull; Color Grading / Color Correction</p>
+            </header>
+
+            <div class="carousel">
+                <div class="item" style="background-image: url('Show-reel.png');" data-video="https://www.youtube.com/embed/F_c2ZlePo9s" data-desc="Compilação de projetos criada para demonstrar minhas principais <strong>habilidades em edição de vídeo, motion graphics, sound design e VFX</strong>.<br><br>O único software que não foi utilizado neste projeto foi o Blender. A proposta foi apresentar uma visão geral das minhas capacidades técnicas e criativas em diferentes estilos de produção audiovisual.">
+                    <div class="item-overlay"><div class="item-title">Showreel</div></div>
+                </div>
+                
+                <div class="item" style="background-image: url('capa-rodeio.png');" data-video="https://www.youtube.com/embed/BxBIFfehuQk" data-desc="Vídeo promocional com títulos em inglês. O <strong>objetivo</strong> deste projeto foi criar uma peça capaz de <strong>transmitir a energia e a empolgação de um rodeio</strong>, despertando o interesse do público em participar do evento.<br><br><strong>O principal desafio foi encontrar imagens de qualidade suficiente para compor a narrativa, já que todo o material precisou ser selecionado e organizado a partir de diferentes vídeos do YouTube.</strong> Além da edição, foi realizado um trabalho de ritmo, sincronização musical e construção de atmosfera utilizando músicas livres de direitos autorais.">
+                    <div class="item-overlay"><div class="item-title">Rodeo</div></div>
+                </div>
+
+                <div class="item" style="background-image: url('Storys.png');" data-video="https://www.youtube.com/embed/odmetHBSpL0" data-format="vertical" data-desc="O objetivo deste projeto foi transmitir uma imagem moderna, elegante e acessível para a marca. <strong>A edição foi feita de forma mais discreta, evitando efeitos excessivos para que o foco principal permanecesse nos produtos apresentados.</strong><br><br>Foram utilizados motion graphics, sound effects e técnicas de tratamento sonoro, além de testes com VFX gerado por Inteligência Artificial aplicado na sequência final do vídeo.">
+                    <div class="item-overlay"><div class="item-title">Story Loja de Roupas</div></div>
+                </div>
+
+                <div class="item" style="background-image: url('Documentay.png');" data-video="https://www.youtube.com/embed/b5DqEKC-cU4" data-format="vertical" data-desc="Mini documentário sobre Galileu Galilei, <strong>combinando narrativa visual, motion graphics, sound effects e imagens geradas por IA para ilustrar eventos históricos.</strong><br><br>A produção priorizou a clareza e a imersão da mensagem, totalmente inspirada no clássico estilo documental.">
+                    <div class="item-overlay"><div class="item-title">Galileu Galilei</div></div>
+                </div>
+
+                <div class="item" style="background-image: url('talk-cut.png');" data-video="https://www.youtube.com/embed/D4ymf7RrAj4" data-format="vertical" data-desc="O objetivo principal deste corte <strong>é despertar a curiosidade do espectador e incentivá-lo a assistir ao conteúdo completo.</strong><br><br>A edição foi mantida simples, direta e dinâmica, utilizando legendas estratégicas e mantendo o foco total na mensagem transmitida pelo palestrante.">
+                    <div class="item-overlay"><div class="item-title">Talk Palestra</div></div>
+                </div>
+
+                <div class="item item-sobre" style="background-image: url('https://picsum.photos/600/340?random=6');" id="cardSobre">
+                    <div class="item-overlay">
+                        <div class="item-title">
+                            Sobre Mim 
+                            <span>Continue rolando para baixo ↓</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="dica-voltar">↑ Role para cima para voltar aos vídeos</div>
+            <div class="sobre-content">
+                <img src="https://picsum.photos/300/300?random=7" alt="Maycon Henrique" class="sobre-foto">
+                <div class="sobre-texto">
+                    <h2>Olá, me chamo Maycon Henrique</h2>
+                    
+                    <p>Especializado em edição de vídeo e Motion Graphics, <strong>com foco em criar narrativas visuais que prendem a atenção</strong> desde o primeiro segundo. Trabalho com ritmo de edição e cortes precisos, combinados com Color Grading e Color Correction avançados.</p>
+                    
+                    <p>Com <strong>prática em edição de vídeo aplicada a diferentes formatos</strong>, incluindo Shorts, Reels, Ads, documentários e vídeos institucionais. Meu principal <stron>objetivo é garantir a mais alta retenção, sempre elevando o nível máximo de qualidade que o projeto exige</stron>.</p>
+
+                    <p>Busco <strong>melhoria contínua e me mantenho atualizado sobre as tendências do mercado, sempre estudando para entregar o mais alto nível em cada projeto</strong>.</p>
+                    
+                    <p>Cada <strong>detalhe</strong> feito com atenção <strong>contribui para a qualidade</strong>, <strong>compromisso com os prazos</strong>, São princípios que levo a sério</p>
+
+                    <div class="softwares">
+                        <h3>Conhecimento em:</h3>
+                        <div class="softwares-list">
+                            <div class="software-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="4"/>
+                                    <text x="12" y="15.5" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="currentColor" stroke-width="0">Ae</text>
+                                </svg>
+                                <span>After Effects</span>
+                            </div>
+                            <div class="software-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="8" r="4.5" />
+                                    <circle cx="7.5" cy="15" r="4.5" />
+                                    <circle cx="16.5" cy="15" r="4.5" />
+                                </svg>
+                                <span>DaVinci Resolve</span>
+                            </div>
+                            <div class="software-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                </svg>
+                                <span>Blender</span>
+                            </div>
+                            <div class="software-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="4"/>
+                                    <text x="12" y="15.5" font-family="'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="bold" text-anchor="middle" fill="currentColor" stroke-width="0">Ps</text>
+                                </svg>
+                                <span>Photoshop</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="modal" id="videoModal">
+        <span class="fechar-btn" id="fecharModal">&times;</span>
+        <div class="modal-content">
+            <iframe id="playerVideo" src="" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            <div id="videoDescription" class="video-description"></div>
+        </div>
+    </div>
+
+    <script>
+const carousel = document.querySelector('.carousel');
+        const items = document.querySelectorAll('.item');
+        const totalItems = items.length;
+        const mainWrapper = document.getElementById('mainWrapper');
+        const cardSobre = document.getElementById('cardSobre');
+        
+        // Ajusta o tamanho do raio 3D dependendo do tamanho da tela do dispositivo
+        let radius = window.innerWidth < 768 ? 280 : 560; 
+        let originalTransformSobre = '';
+
+        function posicionarCards() {
+            radius = window.innerWidth < 768 ? 280 : 560;
+            items.forEach((item, index) => {
+                const angle = (360 / totalItems) * index;
+                const transformValue = `rotateY(${angle}deg) translateZ(${radius}px)`;
+                item.style.transform = transformValue;
+                
+                if(item.id === 'cardSobre') {
+                    originalTransformSobre = transformValue;
+                }
+            });
+        }
+
+        posicionarCards();
+        window.addEventListener('resize', () => {
+            posicionarCards();
+            if (!isSobreMimAberto) {
+                carousel.style.transform = `rotateY(${currentRotation}deg)`;
+            }
+        });
+
+        let currentRotation = 0;
+        let isSobreMimAberto = false; 
+        let isAnimating = false; 
+
+        function atualizarReflexo() {
+            const grausPorItem = 360 / totalItems;
+            let indexFrente = Math.round(Math.abs(currentRotation) / grausPorItem) % totalItems;
+            
+            items.forEach((item, index) => {
+                if (index === indexFrente) {
+                    item.classList.add('cartao-frente');
+                } else {
+                    item.classList.remove('cartao-frente');
+                }
+            });
+        }
+
+        atualizarReflexo();
+
+        // CONTROLADOR DE MOVIMENTO UNIFICADO (PC e Celular)
+        function moverGeral(deltaY) {
+            if (isAnimating) return;
+
+            if (isSobreMimAberto) {
+                if (deltaY < 0) {
+                    isAnimating = true;
+                    isSobreMimAberto = false;
+                    mainWrapper.style.transform = 'translateY(0)'; 
+                    
+                    setTimeout(() => {
+                        cardSobre.style.transition = 'transform 0.6s ease-out, opacity 0.6s ease-out';
+                        cardSobre.style.transform = originalTransformSobre;
+                        cardSobre.style.opacity = '1';
+                        
+                        setTimeout(() => {
+                            cardSobre.style.transition = 'border-color 0.3s, box-shadow 0.3s, transform 0.3s';
+                            isAnimating = false;
+                        }, 600);
+                    }, 400);
+                }
+                return; 
+            }
+
+            currentRotation -= deltaY * 0.08; 
+
+            if (currentRotation > 0) {
+                currentRotation = 0; 
+            } else if (currentRotation <= -300) {
+                currentRotation = -300; 
+                
+                if (deltaY > 0) {
+                    isAnimating = true; 
+                    
+                    cardSobre.style.transition = 'transform 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53), opacity 0.7s ease-in';
+                    cardSobre.style.transform = `${originalTransformSobre} translateY(120vh) rotateZ(-12deg)`;
+                    cardSobre.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        isSobreMimAberto = true;
+                        mainWrapper.style.transform = 'translateY(-100vh)'; 
+                        setTimeout(() => { isAnimating = false; }, 800); 
+                    }, 500);
+                }
+            }
+
+            if (!isAnimating && !isSobreMimAberto) {
+                carousel.style.transform = `rotateY(${currentRotation}deg)`;
+                atualizarReflexo(); 
+            }
+        }
+
+        // Evento de Scroll para Computadores
+        window.addEventListener('wheel', (e) => {
+            moverGeral(e.deltaY);
+        });
+
+        // Eventos de Toque (Swipe) para Celulares
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!isSobreMimAberto) {
+                if (e.cancelable) e.preventDefault();
+            } else {
+                const sobreContent = document.querySelector('.sobre-content');
+                let touchCurrentY = e.touches[0].clientY;
+                let deltaY = touchStartY - touchCurrentY;
+                
+                if (sobreContent.scrollTop === 0 && deltaY < -10) {
+                    if (e.cancelable) e.preventDefault();
+                } else {
+                    return; 
+                }
+            }
+
+            let touchCurrentY = e.touches[0].clientY;
+            let deltaY = touchStartY - touchCurrentY; 
+            
+            moverGeral(deltaY * 2.5); 
+            touchStartY = touchCurrentY;
+        }, { passive: false });
+
+        const modal = document.getElementById('videoModal');
+        const playerVideo = document.getElementById('playerVideo');
+        const videoDescription = document.getElementById('videoDescription');
+        const fecharModal = document.getElementById('fecharModal');
+
+        items.forEach(item => {
+            item.addEventListener('click', () => {
+                const videoSrc = item.getAttribute('data-video');
+                
+                if (!videoSrc) {
+                    if (!isAnimating && !isSobreMimAberto) {
+                        isAnimating = true;
+                        cardSobre.style.transition = 'transform 0.7s cubic-bezier(0.55, 0.085, 0.68, 0.53), opacity 0.7s ease-in';
+                        cardSobre.style.transform = `${originalTransformSobre} translateY(120vh) rotateZ(-12deg)`;
+                        cardSobre.style.opacity = '0';
+                        
+                        setTimeout(() => {
+                            isSobreMimAberto = true;
+                            mainWrapper.style.transform = 'translateY(-100vh)'; 
+                            setTimeout(() => { isAnimating = false; }, 800); 
+                        }, 500);
+                    }
+                    return; 
+                }
+
+                const videoDesc = item.getAttribute('data-desc');
+                const isVertical = item.getAttribute('data-format') === 'vertical';
+                
+                if (isVertical) {
+                    playerVideo.classList.add('video-vertical');
+                } else {
+                    playerVideo.classList.remove('video-vertical');
+                }
+                
+                videoDescription.innerHTML = videoDesc;
+                const separator = videoSrc.includes('?') ? '&' : '?';
+                playerVideo.src = `${videoSrc}${separator}autoplay=1`;
+                modal.classList.add('active');
+            });
+        });
+
+        fecharModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            playerVideo.src = ''; 
+            videoDescription.innerHTML = '';
+        });
+    </script>
+</body>
+</html>
